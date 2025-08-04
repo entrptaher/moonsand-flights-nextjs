@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { getCityBySlug, getAllCitySlugs } from '@/lib/cities';
 import HeroSearchSection from '@/components/HeroSearchSection';
 import DirectFlightsSection from '@/components/DirectFlightsSection';
+import PopularFlightsHeroSection from '@/components/PopularFlightsHeroSection';
 
 interface FlightPageProps {
   params: Promise<{
@@ -50,6 +51,12 @@ export default async function FlightPage({ params }: FlightPageProps) {
       
       {/* Direct Flights Promotion Section */}
       <DirectFlightsSection
+        destinationIATA={cityData.iata}
+        destinationName={cityData.name}
+      />
+      
+      {/* Popular Flights Hero Image Section */}
+      <PopularFlightsHeroSection
         destinationIATA={cityData.iata}
         destinationName={cityData.name}
       />
