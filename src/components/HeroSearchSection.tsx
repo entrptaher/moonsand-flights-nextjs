@@ -20,7 +20,7 @@ export default async function HeroSearchSection({
   }
 
   return (
-    <section className="relative min-h-[500px] bg-gradient-to-b from-blue-400 via-blue-300 to-blue-200">
+    <section className="relative min-h-screen bg-gradient-to-b from-blue-400 via-blue-300 to-blue-200 flex items-center">
       {/* Sky background with clouds effect */}
       <div className="absolute inset-0 opacity-30">
         <div className="absolute top-10 left-20 w-48 h-24 bg-white/20 rounded-full blur-3xl"></div>
@@ -28,7 +28,7 @@ export default async function HeroSearchSection({
         <div className="absolute top-16 right-20 w-24 h-12 bg-white/10 rounded-full blur-xl"></div>
       </div>
       
-      <div className="relative z-10 container mx-auto px-4 py-12">
+      <div className="relative z-10 container mx-auto px-4 py-20">
         {/* Main heading */}
         <div className="text-center mb-8">
           <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">
