@@ -97,20 +97,48 @@ export interface NearestPlacesResponse {
   destinations: string[];
 }
 
-// Get user's current location IATA
+// Get user's current location IATA using IP-based detection
 export async function getUserLocation(): Promise<UserLocation> {
-  const response = await fetch('https://www.travelpayouts.com/whereami', {
-    headers: {
-      'accept': '*/*',
-      'cache-control': 'no-cache',
-    },
-  });
+  // Import dynamically to avoid issues with headers() in some contexts
+  const { getVisitorLocation } = await import('./ip-location');
   
-  if (!response.ok) {
-    throw new Error('Failed to fetch user location');
+  try {
+    const location = await getVisitorLocation();
+    
+    // Convert to UserLocation format
+    return {
+      iata: location.iata || 'DAC',
+      name: location.name || 'Dhaka',
+      country_name: location.country_name || 'Bangladesh',
+      coordinates: location.coordinates || '90.405876:23.848648'
+    };
+  } catch (error) {
+    console.warn('Failed to get visitor location:', error);
+    
+    // Fallback to original API
+    try {
+      const response = await fetch('https://www.travelpayouts.com/whereami', {
+        headers: {
+          'accept': '*/*',
+          'cache-control': 'no-cache',
+        },
+      });
+      
+      if (response.ok) {
+        return response.json();
+      }
+    } catch (fallbackError) {
+      console.warn('Fallback location also failed:', fallbackError);
+    }
+    
+    // Final fallback
+    return {
+      iata: 'DAC',
+      name: 'Dhaka',
+      country_name: 'Bangladesh',
+      coordinates: '90.405876:23.848648'
+    };
   }
-  
-  return response.json();
 }
 
 // Get airlines serving a specific destination
