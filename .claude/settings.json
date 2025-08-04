@@ -1,0 +1,26 @@
+{
+  "permissions": {
+    "allow": [],
+    "deny": [
+      ".next",
+      "node_modules",
+      "package-lock.json",
+      "pnpm-lock.yaml",
+      "yarn.lock",
+      "dist",
+      "build",
+      "coverage",
+      "public",
+      "out",
+      "lib",
+      "vendor",
+      "tmp",
+      "temp",
+      "logs",
+      "log",
+      "debug",
+      "debug.log",
+      "error.log"
+    ]
+  }
+}
