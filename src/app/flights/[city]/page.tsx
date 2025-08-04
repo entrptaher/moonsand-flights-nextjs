@@ -41,23 +41,13 @@ export default async function FlightPage({ params }: FlightPageProps) {
 
   return (
     <main>
-      {/* Hero Search Section */}
+      {/* Hero Search Section - includes widget + compare/save section */}
       <HeroSearchSection 
         destinationIATA={cityData.iata} 
         destinationName={cityData.name} 
       />
       
       {/* Additional sections will be added here */}
-      <div className="container mx-auto px-4 py-12">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Flights to {cityData.name}, {cityData.country}
-          </h2>
-          <p className="text-gray-600">
-            Airport Code: {cityData.iata} | More sections coming soon...
-          </p>
-        </div>
-      </div>
     </main>
   );
 }
