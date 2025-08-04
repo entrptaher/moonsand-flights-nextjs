@@ -4,14 +4,13 @@ interface PopularFlightsHeroSectionProps {
 }
 
 export default function PopularFlightsHeroSection({
-  destinationName,
-  destinationIATA
+  destinationName
 }: PopularFlightsHeroSectionProps) {
   // Generate dynamic Picsum URL for the city
   const getCityImageUrl = (cityName: string) => {
     // Use Picsum with a seed based on city name for consistent images
     const seed = cityName.toLowerCase().replace(/\s+/g, '-');
-    return `https://picsum.photos/seed/${seed}/1200/400`;
+    return `https://images.unsplash.com/photo-1532219362275-a1cbe9dc3602?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3ODczMzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTQzMTc4MjR8&ixlib=rb-4.1.0&q=85`;
   };
 
   return (

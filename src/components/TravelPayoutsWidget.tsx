@@ -28,8 +28,8 @@ export default function TravelPayoutsWidget({
     }
 
     // Set global variables like the original code
-    (window as any).userIATA = finalUserIATA;
-    (window as any).userCurrency = finalUserCurrency;
+    (window as unknown as Record<string, unknown>).userIATA = finalUserIATA;
+    (window as unknown as Record<string, unknown>).userCurrency = finalUserCurrency;
 
     const injectWidget = () => {
       const widgetUrl = new URL('https://tp.media/content');
@@ -91,8 +91,8 @@ export default function TravelPayoutsWidget({
     return () => {
       clearTimeout(timer);
       // Clean up global variables
-      delete (window as any).userIATA;
-      delete (window as any).userCurrency;
+      delete (window as unknown as Record<string, unknown>).userIATA;
+      delete (window as unknown as Record<string, unknown>).userCurrency;
       
       const existingScript = document.querySelector(`script[src*="tp.media/content"]`);
       existingScript?.remove();

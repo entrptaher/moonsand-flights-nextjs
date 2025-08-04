@@ -3,6 +3,7 @@ import { getCityBySlug, getAllCitySlugs } from '@/lib/cities';
 import HeroSearchSection from '@/components/HeroSearchSection';
 import DirectFlightsSection from '@/components/DirectFlightsSection';
 import PopularFlightsHeroSection from '@/components/PopularFlightsHeroSection';
+import PopularNearbyFlightsSection from '@/components/PopularNearbyFlightsSection';
 
 interface FlightPageProps {
   params: Promise<{
@@ -57,6 +58,12 @@ export default async function FlightPage({ params }: FlightPageProps) {
       
       {/* Popular Flights Hero Image Section */}
       <PopularFlightsHeroSection
+        destinationIATA={cityData.iata}
+        destinationName={cityData.name}
+      />
+      
+      {/* Popular Nearby Flights Section */}
+      <PopularNearbyFlightsSection
         destinationIATA={cityData.iata}
         destinationName={cityData.name}
       />

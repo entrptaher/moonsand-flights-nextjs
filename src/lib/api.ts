@@ -38,7 +38,7 @@ export interface FlightScheduleResponse {
         airline_name: string;
         flight_number: number;
       }>;
-      stops: any[];
+      stops: unknown[];
       arrival_day_indicator: number;
       op_days: boolean[];
     }>;
@@ -73,6 +73,28 @@ export interface GroupedPricesResponse {
   }>;
   currency: string;
   success: boolean;
+}
+
+export interface NearestPlacesResponse {
+  prices: Array<{
+    link: string;
+    origin: string;
+    gate: string;
+    main_airline: string;
+    depart_date: string;
+    destination: string;
+    found_at: string;
+    transfers: number;
+    distance: number;
+    duration: number;
+    price: number;
+    trip_class: number;
+    origin_name: string;
+    destination_name: string;
+    main_airline_name: string;
+  }>;
+  origins: string[];
+  destinations: string[];
 }
 
 // Get user's current location IATA
@@ -183,6 +205,39 @@ export async function searchCities(term: string): Promise<Array<{
   
   if (!response.ok) {
     throw new Error('Failed to search cities');
+  }
+  
+  return response.json();
+}
+
+// Get nearest places matrix for popular nearby flights
+export async function getNearestPlaces(
+  origin: string,
+  destination: string,
+  currency: string = 'USD',
+  limit: number = 7,
+  distance: number = 500
+): Promise<NearestPlacesResponse> {
+  const params = new URLSearchParams({
+    origin,
+    destination,
+    currency,
+    limit: limit.toString(),
+    distance: distance.toString()
+  });
+  
+  const response = await fetch(
+    `https://tpproxy.blue-heart-794e.workers.dev/v2/prices/nearest-places-matrix?${params}`,
+    {
+      headers: {
+        'accept': '*/*',
+        'cache-control': 'no-cache',
+      },
+    }
+  );
+  
+  if (!response.ok) {
+    throw new Error('Failed to fetch nearest places');
   }
   
   return response.json();

@@ -1,5 +1,6 @@
 import { getUserLocation } from '@/lib/api';
 import TravelPayoutsWidget from './TravelPayoutsWidget';
+import Link from 'next/link';
 
 interface HeroSearchSectionProps {
   destinationIATA?: string;
@@ -64,12 +65,12 @@ export default async function HeroSearchSection({
 
               {/* Right Column - Button */}
               <div className="flex-shrink-0">
-                <a 
+                <Link 
                   href="/flights" 
                   className="inline-block px-6 py-3 border border-gray-300 text-gray-700 font-medium text-sm rounded hover:bg-gray-50 transition-colors"
                 >
                   Browse Flights
-                </a>
+                </Link>
               </div>
             </div>
           </div>
