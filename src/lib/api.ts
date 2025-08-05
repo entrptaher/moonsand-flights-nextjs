@@ -1,6 +1,7 @@
 // API utility functions for flight booking data
 
 // Smart fetch that automatically uses caching on server side
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let fetchInstance: any = null;
 
 const smartFetch = async (url: string, options?: RequestInit) => {

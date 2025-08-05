@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getUserLocation, getNearestPlaces, getAirlineLogo } from '@/lib/api';
 
 interface PopularNearbyFlightsSectionProps {
@@ -78,9 +79,11 @@ export default async function PopularNearbyFlightsSection({
                   <div className="flex items-center space-x-4">
                     {/* Airline logo */}
                     <div className="w-8 h-8 flex-shrink-0">
-                      <img
+                      <Image
                         src={getAirlineLogo(flight.main_airline, 32)}
                         alt={flight.main_airline_name}
+                        width={32}
+                        height={32}
                         className="w-full h-full object-contain"
                       />
                     </div>

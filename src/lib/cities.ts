@@ -18,7 +18,7 @@ export interface ApiCityData {
   discoverCityText: {
     root: {
       type: string;
-      children: any[];
+      children: unknown[];
       version: number;
     };
   };

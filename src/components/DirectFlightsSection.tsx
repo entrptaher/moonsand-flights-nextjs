@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { getAirlinesByDestination, getFlightSchedule, getUserLocation } from '@/lib/api';
 import AirlineGrid from './AirlineGrid';
 
@@ -117,9 +118,11 @@ export default async function DirectFlightsSection({
                         
                         {flight.details[0] && (
                           <div className="flex items-center space-x-3">
-                            <img 
+                            <Image 
                               src={flight.details[0].airline_logo} 
                               alt={flight.details[0].airline_name}
+                              width={24}
+                              height={24}
                               className="w-6 h-6"
                             />
                             <span className="text-sm text-gray-700">
@@ -182,9 +185,11 @@ export default async function DirectFlightsSection({
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                   {/* Left side - Illustration */}
                   <div className="flex justify-center">
-                    <img 
+                    <Image 
                       src="https://tp.media/cascoon/flights.svg" 
                       alt="Airplane seats illustration"
+                      width={300}
+                      height={200}
                       className="h-auto"
                     />
                   </div>

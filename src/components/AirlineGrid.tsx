@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { getAirlineLogo } from '@/lib/api';
 
 interface AirlineGridProps {
@@ -17,9 +18,11 @@ export default function AirlineGrid({ airlines, destinationName }: AirlineGridPr
       <div className="flex flex-wrap items-center gap-3 mb-6">
         {airlines.slice(0, 15).map((airlineCode) => (
           <div key={airlineCode} className="w-10 h-10 bg-gray-100 rounded p-1 hover:bg-gray-200 transition-colors">
-            <img
+            <Image
               src={getAirlineLogo(airlineCode, 64)}
               alt={`${airlineCode} airline`}
+              width={40}
+              height={40}
               className="w-full h-full object-contain"
               onError={(e) => {
                 (e.target as HTMLImageElement).style.display = 'none';
