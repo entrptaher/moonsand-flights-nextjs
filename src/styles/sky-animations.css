@@ -1,0 +1,80 @@
+@keyframes float-slow {
+  0% { transform: translateX(-100px); }
+  100% { transform: translateX(calc(100vw + 100px)); }
+}
+
+@keyframes float-slower {
+  0% { transform: translateX(100px); }
+  100% { transform: translateX(calc(-100vw - 100px)); }
+}
+
+@keyframes float-medium {
+  0% { transform: translateX(-80px); }
+  100% { transform: translateX(calc(100vw + 80px)); }
+}
+
+@keyframes float-medium-reverse {
+  0% { transform: translateX(80px); }
+  100% { transform: translateX(calc(-100vw - 80px)); }
+}
+
+@keyframes float-fast {
+  0% { transform: translateX(-60px); }
+  100% { transform: translateX(calc(100vw + 60px)); }
+}
+
+@keyframes float-fast-reverse {
+  0% { transform: translateX(60px); }
+  100% { transform: translateX(calc(-100vw - 60px)); }
+}
+
+@keyframes fly-airplane {
+  0% { transform: translateX(-150px) translateY(0px); }
+  100% { transform: translateX(calc(100vw + 150px)) translateY(-20px); }
+}
+
+@keyframes fly-airplane-reverse {
+  0% { transform: translateX(150px) translateY(0px) scaleX(-1); }
+  100% { transform: translateX(calc(-100vw - 150px)) translateY(15px) scaleX(-1); }
+}
+
+@keyframes fly-airplane-high {
+  0% { transform: translateX(-120px) translateY(0px); }
+  100% { transform: translateX(calc(100vw + 120px)) translateY(-10px); }
+}
+
+.animate-float-slow {
+  animation: float-slow 80s linear infinite;
+}
+
+.animate-float-slower {
+  animation: float-slower 100s linear infinite;
+}
+
+.animate-float-medium {
+  animation: float-medium 60s linear infinite;
+}
+
+.animate-float-medium-reverse {
+  animation: float-medium-reverse 70s linear infinite;
+}
+
+.animate-float-fast {
+  animation: float-fast 45s linear infinite;
+}
+
+.animate-float-fast-reverse {
+  animation: float-fast-reverse 50s linear infinite;
+}
+
+.animate-fly-airplane {
+  animation: fly-airplane 35s linear infinite;
+}
+
+.animate-fly-airplane-reverse {
+  animation: fly-airplane-reverse 40s linear infinite;
+}
+
+.animate-fly-airplane-high {
+  animation: fly-airplane-high 30s linear infinite;
+}

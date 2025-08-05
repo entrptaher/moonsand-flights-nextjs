@@ -62,20 +62,12 @@ export default async function PopularNearbyFlightsSection({
               Popular Nearby Flights
             </h3>
             <a 
-              href={`https://flights.moonsand.co/flights/?destination=${destinationName.toLowerCase()}`}
+              href={flights.length > 0 ? `https://flights.moonsand.co${flights[0].link}` : `https://flights.moonsand.co/flights/?destination=${destinationName.toLowerCase()}`}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center text-blue-600 hover:text-blue-800 font-medium text-sm hover:underline"
             >
-              View all available flights to {destinationName}
-              <svg 
-                className="w-3 h-3 ml-1 -rotate-45" 
-                fill="none" 
-                stroke="currentColor" 
-                viewBox="0 0 24 24"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 17L17 7M17 7H7M17 7V17" />
-              </svg>
+              View all available flights to {destinationName} ↗
             </a>
           </div>
           
