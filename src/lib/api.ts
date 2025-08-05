@@ -1,5 +1,33 @@
 // API utility functions for flight booking data
 
+// Smart fetch that automatically uses caching on server side
+let fetchInstance: any = null;
+
+const smartFetch = async (url: string, options?: RequestInit) => {
+  // Initialize fetch instance if not already done
+  if (!fetchInstance) {
+    if (typeof window === 'undefined') {
+      // Server side - try to use cached fetch
+      try {
+        const NodeFetchCache = (await import('node-fetch-cache')).default;
+        const { FileSystemCache } = await import('node-fetch-cache');
+        
+        fetchInstance = NodeFetchCache.create({
+          cache: new FileSystemCache({ttl: 60 * 60 * 24}), // Cache for 24 hours
+        });
+      } catch (error) {
+        console.warn('Failed to load cache, using regular fetch:', error);
+        fetchInstance = fetch;
+      }
+    } else {
+      // Client side - use regular fetch
+      fetchInstance = fetch;
+    }
+  }
+  
+  return fetchInstance(url, options);
+};
+
 export interface UserLocation {
   iata: string;
   name: string;
@@ -117,7 +145,7 @@ export async function getUserLocation(): Promise<UserLocation> {
     
     // Fallback to original API
     try {
-      const response = await fetch('https://www.travelpayouts.com/whereami', {
+      const response = await smartFetch('https://www.travelpayouts.com/whereami', {
         headers: {
           'accept': '*/*',
           'cache-control': 'no-cache',
@@ -143,7 +171,7 @@ export async function getUserLocation(): Promise<UserLocation> {
 
 // Get airlines serving a specific destination
 export async function getAirlinesByDestination(iata: string): Promise<AirlinesByDestination> {
-  const response = await fetch(`https://tpproxy.blue-heart-794e.workers.dev/airlines-by-destination?iata=${iata}`, {
+  const response = await smartFetch(`https://tpproxy.blue-heart-794e.workers.dev/airlines-by-destination?iata=${iata}`, {
     headers: {
       'accept': '*/*',
       'cache-control': 'no-cache',
@@ -178,7 +206,7 @@ export async function getFlightSchedule(
     campaign_id: '100'
   });
   
-  const response = await fetch(`https://suggest.apistp.com/widgets/v1/flight-schedule?${params}`, {
+  const response = await smartFetch(`https://suggest.apistp.com/widgets/v1/flight-schedule?${params}`, {
     headers: {
       'accept': '*/*',
       'cache-control': 'no-cache',
@@ -198,7 +226,7 @@ export async function getGroupedPrices(
   destination: string,
   currency: string = 'USD'
 ): Promise<GroupedPricesResponse> {
-  const response = await fetch(
+  const response = await smartFetch(
     `https://tpproxy.blue-heart-794e.workers.dev/grouped-prices?origin=${origin}&destination=${destination}&currency=${currency}`,
     {
       headers: {
@@ -221,7 +249,7 @@ export async function searchCities(term: string): Promise<Array<{
   subtitle: string;
   title: string;
 }>> {
-  const response = await fetch(
+  const response = await smartFetch(
     `https://suggest.apistp.com/search?service=aviasales&term=${encodeURIComponent(term)}&locale=en`,
     {
       headers: {
@@ -254,7 +282,7 @@ export async function getNearestPlaces(
     distance: distance.toString()
   });
   
-  const response = await fetch(
+  const response = await smartFetch(
     `https://tpproxy.blue-heart-794e.workers.dev/v2/prices/nearest-places-matrix?${params}`,
     {
       headers: {
