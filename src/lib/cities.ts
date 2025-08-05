@@ -7,6 +7,32 @@ export interface CityData {
   slug: string;
 }
 
+// Extended city data from API
+export interface ApiCityData {
+  id: number;
+  name: string;
+  slug: string;
+  coverPhoto: string | null;
+  cityMajorAirport: string;
+  iata: string;
+  discoverCityText: {
+    root: {
+      type: string;
+      children: any[];
+      version: number;
+    };
+  };
+  bestTimeToVisit: string;
+  hottestMonth: string;
+  coldestMonth: string;
+  officialLanguage: string;
+  currency: string;
+  timezone: string;
+  updatedAt: string;
+  createdAt: string;
+  _status: string;
+}
+
 export const CITIES: Record<string, CityData> = {
   // European Cities
   'berlin': {
@@ -178,4 +204,37 @@ export function getAllCitySlugs(): string[] {
 // Check if city slug is valid
 export function isValidCitySlug(slug: string): boolean {
   return slug.toLowerCase() in CITIES;
+}
+
+// Fetch city data from API
+export async function fetchCityData(citySlug: string): Promise<ApiCityData | null> {
+  try {
+    const response = await fetch(`http://localhost:3001/api/cities/${citySlug}`);
+    
+    if (!response.ok) {
+      return null;
+    }
+    
+    const data: ApiCityData = await response.json();
+    return data;
+  } catch (error) {
+    console.error(`Failed to fetch city data for ${citySlug}:`, error);
+    return null;
+  }
+}
+
+// Get enhanced city data (combines static + API data)
+export async function getEnhancedCityData(slug: string): Promise<(CityData & Partial<ApiCityData>) | null> {
+  const staticCityData = getCityBySlug(slug);
+  
+  if (!staticCityData) {
+    return null;
+  }
+  
+  const apiData = await fetchCityData(slug);
+  
+  return {
+    ...staticCityData,
+    ...apiData,
+  };
 }

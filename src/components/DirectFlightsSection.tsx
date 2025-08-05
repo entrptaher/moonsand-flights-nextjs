@@ -177,14 +177,35 @@ export default async function DirectFlightsSection({
                 )}
               </div>
             ) : (
-              <div className="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
-                <p className="text-gray-500 mb-4">No flight schedule available</p>
-                <div className="text-xs text-gray-400 text-left">
-                  <p>Debug info:</p>
-                  <p>• User location: {userLocation?.name || 'Not available'} ({userLocation?.iata || 'No IATA'})</p>
-                  <p>• Origin: {userLocation?.iata || 'DAC'} → Destination: {destinationIATA}</p>
-                  <p>• Airlines found: {airlines.length}</p>
-                  <p>• Airlines: {airlines.slice(0, 5).join(', ')}{airlines.length > 5 ? '...' : ''}</p>
+              /* Fallback promotional section when no flight data */
+              <div className="bg-white border border-blue-200 rounded-lg p-8">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                  {/* Left side - Illustration */}
+                  <div className="flex justify-center">
+                    <img 
+                      src="https://tp.media/cascoon/flights.svg" 
+                      alt="Airplane seats illustration"
+                      className="h-auto"
+                    />
+                  </div>
+                  
+                  {/* Right side - Content */}
+                  <div className="text-center lg:text-left">
+                    <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                      Get the best deals on airline tickets
+                    </h3>
+                    <p className="text-gray-600 mb-6 leading-relaxed">
+                      Search for, compare, and buy airline tickets on flights.moonsand.co
+                    </p>
+                    <a
+                      href="https://flights.moonsand.co"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-block bg-blue-600 hover:bg-blue-700 text-white font-medium px-8 py-3 rounded-lg transition-colors"
+                    >
+                      Go to site
+                    </a>
+                  </div>
                 </div>
               </div>
             )}
