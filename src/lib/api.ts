@@ -299,3 +299,51 @@ export async function getNearestPlaces(
   
   return response.json();
 }
+
+// Pexels image interfaces
+export interface PexelsImageResponse {
+  url: string;
+  photographer: string;
+  photographer_url?: string;
+  alt: string;
+  cached: boolean;
+}
+
+// Get destination image from Pexels API
+export async function getDestinationImage(
+  destination: string,
+  size: 'original' | 'large2x' | 'large' | 'medium' | 'small' | 'landscape' | 'portrait' | 'tiny' = 'large'
+): Promise<PexelsImageResponse> {
+  try {
+    // For server-side calls, we need to construct the full URL
+    const baseUrl = typeof window === 'undefined' 
+      ? process.env.VERCEL_URL 
+        ? `https://${process.env.VERCEL_URL}` 
+        : 'http://localhost:3000'
+      : '';
+    
+    const url = `${baseUrl}/api/pexels-image?destination=${encodeURIComponent(destination)}&size=${size}`;
+    
+    const response = await fetch(url, {
+      headers: {
+        'accept': 'application/json',
+      },
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch destination image');
+    }
+    
+    return response.json();
+  } catch (error) {
+    console.warn('Failed to get destination image:', error);
+    
+    // Fallback to a placeholder or default image
+    return {
+      url: `https://images.unsplash.com/photo-1532219362275-a1cbe9dc3602?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3ODczMzd8MHwxfHJhbmRvbXx8fHx8fHx8fDE3NTQzMTc4MjR8&ixlib=rb-4.1.0&q=85&w=1200&h=600`,
+      photographer: 'Unsplash',
+      alt: `${destination} cityscape`,
+      cached: false
+    };
+  }
+}
