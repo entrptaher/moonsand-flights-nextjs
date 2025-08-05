@@ -1,11 +1,17 @@
-import { ApiCityData } from '@/lib/cities';
+'use client';
+
+import { useCurrentCity } from '@/lib/store';
 import RichTextRenderer from './RichTextRenderer';
 
-interface DiscoverCitySectionProps {
-  cityData: ApiCityData;
-}
-
-export default function DiscoverCitySection({ cityData }: DiscoverCitySectionProps) {
+export default function DiscoverCitySection() {
+  const currentCity = useCurrentCity();
+  
+  // Only render if we have city data with discover text
+  if (!currentCity || !currentCity.discoverCityText) {
+    return null;
+  }
+  
+  const cityData = currentCity;
   return (
     <section className="py-16 bg-white">
       {/* Container matching other sections */}
@@ -19,7 +25,9 @@ export default function DiscoverCitySection({ cityData }: DiscoverCitySectionPro
 
         {/* Rich Text Content */}
         <div className="max-w-none">
-          <RichTextRenderer content={cityData.discoverCityText} />
+          {cityData.discoverCityText && (
+            <RichTextRenderer content={cityData.discoverCityText} />
+          )}
         </div>
       </div>
     </section>

@@ -1,14 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import { useCurrentCity, useFlightData } from '@/lib/store';
 import { getAirlineLogo } from '@/lib/api';
 
-interface AirlineGridProps {
-  airlines: string[];
-  destinationName: string;
-}
-
-export default function AirlineGrid({ airlines, destinationName }: AirlineGridProps) {
+export default function AirlineGrid() {
+  const currentCity = useCurrentCity();
+  const { airlines } = useFlightData();
+  
+  const destinationName = currentCity?.name || 'Berlin';
   return (
     <div>
       <h3 className="text-lg font-bold text-gray-900 mb-6">

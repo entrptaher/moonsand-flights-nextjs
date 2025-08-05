@@ -1,34 +1,16 @@
+'use client';
+
 import Image from 'next/image';
-import { getUserLocation, getNearestPlaces, getAirlineLogo } from '@/lib/api';
+import { useCurrentCity, useUserLocation, useFlightData } from '@/lib/store';
+import { getAirlineLogo } from '@/lib/api';
 
-interface PopularNearbyFlightsSectionProps {
-  destinationIATA: string;
-  destinationName: string;
-}
-
-export default async function PopularNearbyFlightsSection({
-  destinationIATA,
-  destinationName
-}: PopularNearbyFlightsSectionProps) {
-  // Get user location and nearby flights
-  let nearestPlaces = null;
-  let userLocation = null;
+export default function PopularNearbyFlightsSection() {
+  const currentCity = useCurrentCity();
+  const userLocation = useUserLocation();
+  const { nearestPlaces } = useFlightData();
   
-  try {
-    userLocation = await getUserLocation();
-    console.log('User location:', userLocation);
-  } catch (error) {
-    console.warn('Could not fetch user location:', error);
-  }
-  
-  try {
-    const originIATA = userLocation?.iata || 'DAC';
-    nearestPlaces = await getNearestPlaces(originIATA, destinationIATA);
-    console.log('Nearest places:', nearestPlaces);
-  } catch (error) {
-    console.warn('Could not fetch nearest places:', error);
-  }
-
+  const destinationIATA = currentCity?.iata || 'BER';
+  const destinationName = currentCity?.name || 'Berlin';
   const flights = nearestPlaces?.prices || [];
 
   // Format price with currency symbol

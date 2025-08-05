@@ -1,24 +1,21 @@
-import { ApiCityData } from '@/lib/cities';
+'use client';
 
-interface CityInformationSectionProps {
-  cityData: ApiCityData;
-  userLocation?: {
-    name: string;
-    iata: string;
-    country_name: string;
-  } | null;
-  flightData?: {
-    prices: Array<{
-      price: number;
-      link: string;
-      currency?: string;
-    }>;
-  } | null;
-}
+import { useCurrentCity, useUserLocation, useFlightData } from '@/lib/store';
 
-export default function CityInformationSection({ cityData, userLocation, flightData }: CityInformationSectionProps) {
+export default function CityInformationSection() {
+  const currentCity = useCurrentCity();
+  const userLocation = useUserLocation();
+  const { nearestPlaces } = useFlightData();
+  
+  // Only render if we have complete API city data
+  if (!currentCity || !currentCity.bestTimeToVisit || !currentCity.hottestMonth || !currentCity.coldestMonth || !currentCity.officialLanguage || !currentCity.currency || !currentCity.timezone) {
+    return null;
+  }
+  
+  const cityData = currentCity;
+  
   // Get cheapest flight price and link
-  const cheapestFlight = flightData?.prices?.[0];
+  const cheapestFlight = nearestPlaces?.prices?.[0];
   const flightPrice = cheapestFlight ? `$${cheapestFlight.price.toFixed(2)}` : '$367.00';
   const flightLink = cheapestFlight ? `https://flights.moonsand.co${cheapestFlight.link}` : `https://flights.moonsand.co/flights/?destination=${cityData.name.toLowerCase()}`;
   const informationCards = [
@@ -73,7 +70,7 @@ export default function CityInformationSection({ cityData, userLocation, flightD
       icon: '💳',
       title: 'Local Currency:',
       mainText: cityData.currency,
-      subText: `The ${cityData.currency.split(' ')[0]} is the currency used in ${cityData.name}.`,
+      subText: `The ${cityData.currency?.split(' ')[0]} is the currency used in ${cityData.name}.`,
     },
     {
       icon: '⏰',

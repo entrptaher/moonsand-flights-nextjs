@@ -1,46 +1,16 @@
+'use client';
+
 import Image from 'next/image';
-import { getAirlinesByDestination, getFlightSchedule, getUserLocation } from '@/lib/api';
+import { useCurrentCity, useUserLocation, useFlightData } from '@/lib/store';
 import AirlineGrid from './AirlineGrid';
 
-interface DirectFlightsSectionProps {
-  destinationIATA: string;
-  destinationName: string;
-}
-
-export default async function DirectFlightsSection({
-  destinationIATA,
-  destinationName
-}: DirectFlightsSectionProps) {
-  // Get airlines serving this destination and user location
-  let airlines: string[] = [];
-  let flightSchedule = null;
-  let userLocation = null;
+export default function DirectFlightsSection() {
+  const currentCity = useCurrentCity();
+  const userLocation = useUserLocation();
+  const { flightSchedule } = useFlightData();
   
-  try {
-    // Get user location first
-    userLocation = await getUserLocation();
-    console.log('User location:', userLocation);
-  } catch (error) {
-    console.warn('Could not fetch user location:', error);
-  }
-  
-  try {
-    const airlinesData = await getAirlinesByDestination(destinationIATA);
-    airlines = airlinesData.airlines;
-    console.log('Airlines for', destinationIATA, ':', airlines);
-    
-    // Get flight schedule using user's location or fallback to DAC
-    const originIATA = userLocation?.iata || 'DAC';
-    try {
-      flightSchedule = await getFlightSchedule(originIATA, destinationIATA);
-      console.log('Flight schedule:', flightSchedule);
-    } catch (error) {
-      console.warn('Could not fetch flight schedule:', error);
-    }
-  } catch (error) {
-    console.warn('Could not fetch airlines:', error);
-  }
-
+  const destinationIATA = currentCity?.iata || 'BER';
+  const destinationName = currentCity?.name || 'Berlin';
   const flights = flightSchedule?.result?.flights || [];
 
   return (
@@ -218,7 +188,7 @@ export default async function DirectFlightsSection({
         </div>
 
         {/* Airlines section */}
-        <AirlineGrid airlines={airlines} destinationName={destinationName} />
+        <AirlineGrid />
       </div>
     </section>
   );

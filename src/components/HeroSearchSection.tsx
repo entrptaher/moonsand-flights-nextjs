@@ -1,24 +1,16 @@
-import { getUserLocation } from '@/lib/api';
+'use client';
+
+import { useCurrentCity, useUserLocation } from '@/lib/store';
 import TravelPayoutsWidget from './TravelPayoutsWidget';
 import Link from 'next/link';
 
-interface HeroSearchSectionProps {
-  destinationIATA?: string;
-  destinationName?: string;
-}
-
-export default async function HeroSearchSection({ 
-  destinationIATA = 'BER',
-  destinationName = 'Berlin' 
-}: HeroSearchSectionProps) {
-  // Get user location for widget
-  let userIATA: string | undefined;
-  try {
-    const userLocation = await getUserLocation();
-    userIATA = userLocation.iata;
-  } catch (error) {
-    console.warn('Could not fetch user location:', error);
-  }
+export default function HeroSearchSection() {
+  const currentCity = useCurrentCity();
+  const userLocation = useUserLocation();
+  
+  const destinationIATA = currentCity?.iata || 'BER';
+  const destinationName = currentCity?.name || 'Berlin';
+  const userIATA = userLocation?.iata;
 
   return (
     <section className="relative min-h-screen bg-gradient-to-b from-blue-400 via-blue-300 to-blue-200 flex items-center overflow-hidden">
