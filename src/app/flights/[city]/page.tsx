@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getAllCitySlugs, getEnhancedCityData } from '@/lib/cities';
+import { getAllCitySlugs, getEnhancedCityData, ApiCityData } from '@/lib/cities';
 import { getUserLocation, getNearestPlaces } from '@/lib/api';
 import HeroSearchSection from '@/components/HeroSearchSection';
 import DirectFlightsSection from '@/components/DirectFlightsSection';
@@ -89,18 +89,18 @@ export default async function FlightPage({ params }: FlightPageProps) {
         destinationName={cityData.name}
       />
       
-      {/* City Information Section */}
-      {cityData.discoverCityText && (
+      {/* City Information Section - only show if we have API data */}
+      {cityData.bestTimeToVisit && cityData.hottestMonth && cityData.coldestMonth && cityData.officialLanguage && cityData.currency && cityData.timezone && (
         <CityInformationSection 
-          cityData={cityData} 
+          cityData={cityData as ApiCityData} 
           userLocation={userLocation}
           flightData={nearestPlaces}
         />
       )}
       
-      {/* Discover City Section */}
+      {/* Discover City Section - only show if we have API data */}
       {cityData.discoverCityText && (
-        <DiscoverCitySection cityData={cityData} />
+        <DiscoverCitySection cityData={cityData as ApiCityData} />
       )}
     </main>
   );

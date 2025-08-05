@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface RichTextNode {
   type: string;
   text?: string;
@@ -23,7 +25,7 @@ export default function RichTextRenderer({ content }: RichTextRendererProps) {
   const renderNode = (node: RichTextNode, index: number): React.ReactNode => {
     switch (node.type) {
       case 'heading':
-        const HeadingTag = node.tag as keyof JSX.IntrinsicElements;
+        const HeadingTag = node.tag as keyof React.JSX.IntrinsicElements;
         return (
           <HeadingTag key={index} className="font-bold text-gray-900 mb-6 text-xl">
             {node.children?.map((child, childIndex) => renderNode(child, childIndex))}

@@ -16,7 +16,7 @@ export default async function PopularFlightsHeroSection({
       {/* Container matching other sections */}
       <div className="max-w-[1140px] mx-auto px-5">
         {/* Hero image with text overlay */}
-        <div className="relative h-64 overflow-hidden rounded-lg bg-gray-400 mb-12">
+        <div className="relative h-80 overflow-hidden rounded-lg bg-gray-400 mb-12">
           <div 
             className="absolute inset-0 bg-cover bg-center bg-no-repeat bg-gray-400"
             style={{

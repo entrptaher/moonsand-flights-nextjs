@@ -18,7 +18,8 @@ export interface ApiCityData {
   discoverCityText: {
     root: {
       type: string;
-      children: unknown[];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      children: any[];
       version: number;
     };
   };
